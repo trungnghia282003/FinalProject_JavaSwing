@@ -28,12 +28,4 @@ public class ConnectDB {
         }
         return conn;
     }
-
-//    public static void main(String[] args) throws SQLServerException {
-//        ConnectDB connectJDBC = new ConnectDB();
-//        Connection cn = connectJDBC.getConnectSQL();
-//        if (cn != null) {
-//            System.out.println("Connected successfully.");
-//        }
-//    }
 }
