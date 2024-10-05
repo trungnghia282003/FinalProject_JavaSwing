@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="QuanLiTonKho">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/dist/QuanLiTonKho.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

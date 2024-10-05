@@ -1,0 +1,10 @@
+<component name="libraryTable">
+  <library name="Library">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/build/classes/Library/swingx-all-1.6.4.jar!/" />
+      <root url="jar://$PROJECT_DIR$/build/classes/Library/mssql-jdbc-9.4.0.jre16.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
