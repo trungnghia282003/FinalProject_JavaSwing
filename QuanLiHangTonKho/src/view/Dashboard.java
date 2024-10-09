@@ -16,27 +16,17 @@ import javax.swing.JOptionPane;
  */
 public class Dashboard extends javax.swing.JFrame {
 
-    String username;
-    String quyen;
-
-    public Dashboard(String username, String quyen) {
+    public Dashboard(String taiKhoan, int maQuyen) {
         initComponents();
         setLocationRelativeTo(null);
         setTitle("Store Inventory");
 
-        this.username = username;
-
-        this.quyen = quyen;
-        lblQuyen.setText(this.quyen);
-
-        String Quyen = lblQuyen.getText().trim();
-
-        if (quyen.equals("ADMINISTRATOR")) {
-            lblTaiKhoan.setText(this.username);
-            lblQuyen.setText(this.quyen);
-        } else if (quyen.equals("EMPLOYEE")) {
-            lblTaiKhoan.setText(this.username);
-            lblQuyen.setText(this.quyen);
+        if (maQuyen == 1) {
+            lblTaiKhoan.setText(taiKhoan);
+            lblQuyen.setText("ADMINISTRATOR");
+        } else {
+            lblTaiKhoan.setText(taiKhoan);
+            lblQuyen.setText("EMPLOYEE");
             buttonUsers.setEnabled(false);
             buttonNhaCungCap.setEnabled(false);
             buttonKhachHang.setEnabled(false);
@@ -358,13 +348,9 @@ public class Dashboard extends javax.swing.JFrame {
                 "Confirmation",
                 JOptionPane.YES_NO_OPTION);
         if (opt == JOptionPane.YES_OPTION) {
-            try {
-                dispose();
-                LoginPage logPage = new LoginPage();
-                logPage.setVisible(true);
-            } catch (SQLException ex) {
-                Logger.getLogger(Dashboard.class.getName()).log(Level.SEVERE, null, ex);
-            }
+            dispose();
+            LoginPage logPage = new LoginPage();
+            logPage.setVisible(true);
         }
     }//GEN-LAST:event_buttonDangXuatActionPerformed
 

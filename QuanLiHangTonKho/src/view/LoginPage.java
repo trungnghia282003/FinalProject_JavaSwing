@@ -5,16 +5,12 @@
  */
 package view;
 
-import database.ConnectDB;
-import java.awt.Color;
-import java.awt.HeadlessException;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
+import dao.QuyenDAO;
+import dao.UserDAO;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import java.util.HashMap;
+import java.util.Map;
 import javax.swing.*;
 
 /**
@@ -23,43 +19,41 @@ import javax.swing.*;
  */
 public class LoginPage extends javax.swing.JFrame {
 
-    ConnectDB cn = new ConnectDB();
-    Connection conn;
-    private PreparedStatement pst;
-    private ResultSet rs;
+    private Map<String, Integer> quyenMap; // Khai báo HashMap để lưu MaQuyen và TenQuyen
 
     // Constructor method
-    public LoginPage() throws SQLException {
+    public LoginPage() {
         initComponents();
         setLocationRelativeTo(null);
         setTitle("Login Page");
-        LoadComboBoxQuyen();
+
+        quyenMap = new HashMap<>(); // Khởi tạo HashMap
+        LoadComboBoxQuyen(); // Gọi hàm load dữ liệu khi khởi tạo LoginPage
 
     }
 
-    public void LoadComboBoxQuyen() throws SQLException {
-        conn = cn.getConnection();
-        String sql = " SELECT * FROM dbo.Quyen";
-        pst = conn.prepareStatement(sql);
-        ResultSet rs = pst.executeQuery();
-
-        //Tao 1 DefaultComboBoxModel
-        DefaultComboBoxModel cbbModel = (DefaultComboBoxModel) comboboxQuyen.getModel();
-        cbbModel.removeAllElements();
+    // Method to load roles into the JComboBox from the database
+    public void LoadComboBoxQuyen() {
+        QuyenDAO quyenDAO = new QuyenDAO(); // Create QuyenDAO object
+        ResultSet rs = quyenDAO.getAll(); // Call getAll() to retrieve roles
 
         try {
-            //Doc danh sach de do vao ComboBox
-            while (rs.next()) {
-                int MaQuyen = rs.getInt("MaQuyen");
-                String TenQuyen = rs.getString("TenQuyen");
-
-                MyComboBox mycbb = new MyComboBox(MaQuyen, TenQuyen);
-                //Them mycbb va Combobox 
-                cbbModel.addElement(mycbb);
+            // Add items to ComboBox from ResultSet
+            while (rs != null && rs.next()) {
+                int maQuyen = rs.getInt("MaQuyen");
+                String tenQuyen = rs.getString("TenQuyen"); // Lấy tên quyền
+                comboboxQuyen.addItem(tenQuyen); // Thêm tên quyền vào JComboBox
+                quyenMap.put(tenQuyen, maQuyen); // Lưu MaQuyen và TenQuyen vào HashMap
             }
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(this, "Lỗi");
+            rs.close(); // Close ResultSet after use
+        } catch (SQLException e) {
+            e.printStackTrace(); // Handle SQL exceptions
         }
+    }
+
+    // Phương thức để lấy MaQuyen khi chọn một quyền từ JComboBox
+    public int getSelectedMaQuyen() {
+        return quyenMap.get(comboboxQuyen.getSelectedItem()); // Trả về MaQuyen tương ứng với TenQuyen đã chọn
     }
 
     @SuppressWarnings("unchecked")
@@ -178,45 +172,27 @@ public class LoginPage extends javax.swing.JFrame {
 
 
     private void loginButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loginButtonActionPerformed
-        conn = cn.getConnection();
 
-        String username = userText.getText();
-        String password = passText.getText();
-        String quyen = comboboxQuyen.getSelectedItem().toString();
-        int MaQuyen;
-        MyComboBox LoaiDuocChon = (MyComboBox) comboboxQuyen.getSelectedItem();
-        MaQuyen = LoaiDuocChon.MaInt();
+        String TaiKhoan = userText.getText();
+        String MatKhau = passText.getText();
+        int maQuyen = getSelectedMaQuyen(); // Get selected role
 
         StringBuffer sb = new StringBuffer();
-        if (username.equals("") || password.equals("")) {
+        if (TaiKhoan.equals("") || MatKhau.equals("")) {
             sb.append("Tài khoản và mật khẩu không được để trống\n");
         }
+
         if (sb.length() > 0) {
             JOptionPane.showMessageDialog(this, sb.toString());
             return;
         }
-        try {
-            String sql = "SELECT * FROM Users WHERE TaiKhoan=? and MatKhau=? and MaQuyen=?";
-            pst = conn.prepareStatement(sql);
 
-            pst.setString(1, username);
-            pst.setString(2, password);
-            pst.setInt(3, MaQuyen);
-
-            rs = pst.executeQuery();
-
-            if (rs.next()) {
-                int userID = rs.getInt("ID");
-                this.hide();
-                JOptionPane.showMessageDialog(null, "Đăng nhập thành công");
-                new Dashboard(username, quyen).setVisible(true);
-            } else {
-                JOptionPane.showMessageDialog(null, "Tài khoản hoặc mật khẩu hoặc quyền truy cập bị sai  ", "Message", JOptionPane.ERROR_MESSAGE);
-            }
-
-        } catch (HeadlessException | SQLException e) {
+        if (new UserDAO().checkLogin(TaiKhoan, MatKhau, maQuyen)) {
+            JOptionPane.showMessageDialog(null, "Đăng nhập thành công");
+            new Dashboard(TaiKhoan, maQuyen).setVisible(true);
+        } else {
+            JOptionPane.showMessageDialog(null, "Tài khoản hoặc mật khẩu hoặc quyền truy cập bị sai", "Message", JOptionPane.ERROR_MESSAGE);
         }
-
     }//GEN-LAST:event_loginButtonActionPerformed
 
     private void clearButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_clearButtonActionPerformed
@@ -229,7 +205,7 @@ public class LoginPage extends javax.swing.JFrame {
     }//GEN-LAST:event_passTextActionPerformed
 
     private void comboboxQuyenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboboxQuyenActionPerformed
-        // TODO add your handling code here:
+
     }//GEN-LAST:event_comboboxQuyenActionPerformed
 
     private void userTextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_userTextActionPerformed
@@ -237,15 +213,7 @@ public class LoginPage extends javax.swing.JFrame {
     }//GEN-LAST:event_userTextActionPerformed
 
     public static void main(String args[]) {
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                try {
-                    new LoginPage().setVisible(true);
-                } catch (SQLException ex) {
-                    Logger.getLogger(LoginPage.class.getName()).log(Level.SEVERE, null, ex);
-                }
-            }
-        });
+        java.awt.EventQueue.invokeLater(() -> new LoginPage().setVisible(true));
     }
 
 
