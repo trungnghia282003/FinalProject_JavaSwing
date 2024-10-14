@@ -4,37 +4,17 @@
  */
 package dao;
 
-import database.JDBCUtils;
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import model.Position;
+import model.Role;
+import java.util.List;
 
 /**
  *
  * @author ASUS
  */
-public class RoleDAO {
+public interface RoleDAO {
 
-    Connection conn = null;
-    Statement statement = null;
-    ResultSet resultSet = null;
+    List<Role> getAllRoles();
 
-    // Constructor method
-    public RoleDAO() {
-        try {
-            conn = new JDBCUtils().getConnection();
-            statement = conn.createStatement();
-        } catch (SQLException ex) {
-        }
-    }
-
-    public ResultSet getAll() {
-        try {
-            String query = "SELECT * FROM dbo.Quyen";
-            resultSet = statement.executeQuery(query);
-        } catch (SQLException ex) {
-        }
-        return resultSet;
-    }
+    Role getRoleById(int id);
 }

@@ -3,10 +3,7 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/F:/Project%20Lap%20Trinh/Java/Project%20Application/QuanLiHangTonKho/src/dao/impl/UsersDAOImpl.java</file>
-            <file>file:/F:/Project%20Lap%20Trinh/Java/Project%20Application/QuanLiHangTonKho/src/service/impl/UsersServiceImpl.java</file>
-            <file>file:/F:/Project%20Lap%20Trinh/Java/Project%20Application/QuanLiHangTonKho/src/dao/UsersDAO.java</file>
-            <file>file:/F:/Project%20Lap%20Trinh/Java/Project%20Application/QuanLiHangTonKho/src/database/JDBCUtils.java</file>
+            <file>file:/F:/Project%20Lap%20Trinh/Java/Project%20Application/QuanLiHangTonKho/src/utils/PasswordUtils.java</file>
         </group>
     </open-files>
 </project-private>

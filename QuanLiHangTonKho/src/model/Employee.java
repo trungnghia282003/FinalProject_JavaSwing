@@ -12,17 +12,17 @@ import java.util.Date;
  */
 public class Employee {
 
-    private int id, positionId;
-    private String employeeName, address, phoneNumber, note;
+    private int positionId;
+    private String userId, employeeName, address, phoneNumber, note;
     private Date dateOfBirth, hireDate;
     private boolean gender;
 
-    public int getId() {
-        return id;
+    public String getId() {
+        return userId;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setUserId(String userId) {
+        this.userId = userId;
     }
 
     public int getPositionId() {

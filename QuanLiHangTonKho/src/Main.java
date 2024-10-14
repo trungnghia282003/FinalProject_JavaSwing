@@ -1,68 +1,39 @@
-
-import java.util.List;
-import model.Users;
-import service.UsersService;
-import service.impl.UsersServiceImpl;
-
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
+
+import model.Role;
+import service.RoleService;
+import service.impl.RoleServiceImpl;
+
+import java.util.List;
+
 /**
- *
  * @author ASUS
  */
 public class Main {
 
     public static void main(String[] args) {
-        UsersService usersService = new UsersServiceImpl();
+        RoleService roleService = new RoleServiceImpl();
 
-        // Test insertUser
-        Users newUser = new Users();
-        newUser.setEmployeeId(-1);
-        newUser.setRoleId(1);
-        newUser.setUsername("john_doe");
-        newUser.setPassword("password123");
-        newUser.setNote("New employee");
-
-        try {
-            if (usersService.insertUser(newUser)) {
-                System.out.println("User inserted successfully.");
+        // Test getAllPosition
+        List<Role> roleList = roleService.getAllRoles();
+        if (roleList != null) {
+            for (Role role : roleList) {
+                System.out.println("ID: " + role.getId());
+                System.out.println("Role Name: " + role.getRoleName());
+                System.out.println("Note: " + role.getNote());
             }
-        } catch (IllegalArgumentException e) {
-            System.out.println("Validation error: " + e.getMessage());
         }
 
-//        // Test getAllUsers
-//        List<Users> userList = usersService.getAllUsers();
-//        if (userList != null) {
-//            for (Users user : userList) {
-//                System.out.println("ID: " + user.getId());
-//                System.out.println("Username: " + user.getUsername());
-//            }
-//        }
-//
-//        // Test getUserById
-//        Users user = usersService.getUserById(1);
-//        if (user != null) {
-//            System.out.println("User with ID 1: " + user.getUsername());
-//        }
-//
-//        // Test updateUser
-//        if (user != null) {
-//            user.setPassword("newPassword123");
-//            try {
-//                if (usersService.updateUser(user)) {
-//                    System.out.println("User updated successfully.");
-//                }
-//            } catch (IllegalArgumentException e) {
-//                System.out.println("Validation error: " + e.getMessage());
-//            }
-//        }
-//
-//        // Test deleteUser
-//        if (usersService.deleteUser(1)) {
-//            System.out.println("User deleted successfully.");
-//        }
+        // Test getUserById
+        Role role = roleService.getRoleById(1);
+        if (role != null) {
+            System.out.println("ID: " + role.getId());
+            System.out.println("Role Name: " + role.getRoleName());
+            System.out.println("Note: " + role.getNote());
+        }
+
     }
 }
