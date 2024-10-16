@@ -7,14 +7,18 @@ package model;
 import java.util.Date;
 
 /**
- *
  * @author ASUS
  */
 public class Invoice {
 
-    private int id, customerId, employeeId;
+    private int id;
+    private Customer customer;
+    private Employee employee;
+    private Product product;
+    private int quantity;
+    private double totalAmount;
     private Date invoiceDate;
-    private String Note;
+    private String note;
 
     public int getId() {
         return id;
@@ -24,20 +28,44 @@ public class Invoice {
         this.id = id;
     }
 
-    public int getCustomerId() {
-        return customerId;
+    public Customer getCustomer() {
+        return customer;
     }
 
-    public void setCustomerId(int customerId) {
-        this.customerId = customerId;
+    public void setCustomer(Customer customer) {
+        this.customer = customer;
     }
 
-    public int getEmployeeId() {
-        return employeeId;
+    public Employee getEmployee() {
+        return employee;
     }
 
-    public void setEmployeeId(int employeeId) {
-        this.employeeId = employeeId;
+    public void setEmployee(Employee employee) {
+        this.employee = employee;
+    }
+
+    public Product getProduct() {
+        return product;
+    }
+
+    public void setProduct(Product product) {
+        this.product = product;
+    }
+
+    public int getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
+    }
+
+    public double getTotalAmount() {
+        return totalAmount;
+    }
+
+    public void setTotalAmount(double totalAmount) {
+        this.totalAmount = totalAmount;
     }
 
     public Date getInvoiceDate() {
@@ -49,11 +77,10 @@ public class Invoice {
     }
 
     public String getNote() {
-        return Note;
+        return note;
     }
 
-    public void setNote(String Note) {
-        this.Note = Note;
+    public void setNote(String note) {
+        this.note = note;
     }
-
 }

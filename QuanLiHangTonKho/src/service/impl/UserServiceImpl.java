@@ -8,6 +8,7 @@ import dao.UserDAO;
 import dao.impl.UserDAOImpl;
 import exception.ValidationException;
 import model.Employee;
+import model.Role;
 import model.User;
 import service.UserService;
 import utils.JDBCUtils;
@@ -94,7 +95,10 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User authenticate(String username, String password) {
-        String query = "SELECT * FROM Users WHERE username = ?";
+        String query = "SELECT u.*, r.roleName as roleName " +
+                "FROM user u " +
+                "INNER JOIN role r ON u.roleId = r.id " +
+                "WHERE username = ?";
 
         try (Connection conn = new JDBCUtils().getConnection();
              PreparedStatement pstmt = conn.prepareStatement(query)) {
@@ -109,11 +113,14 @@ public class UserServiceImpl implements UserService {
                         // Mật khẩu hợp lệ, tạo đối tượng Users từ dữ liệu lấy từ CSDL
                         User user = new User();
                         user.setId(resultSet.getString("id"));
-                        user.setRoleId(resultSet.getInt("roleId"));
                         user.setUsername(resultSet.getString("username"));
                         user.setPassword(storedPassword); // Có thể không cần trả về mật khẩu
                         user.setNote(resultSet.getString("note"));
 
+                        Role role = new Role();
+                        role.setId(resultSet.getInt("roleId"));
+                        role.setRoleName(resultSet.getString("roleName"));
+                        user.setRole(role);
                         return user;  // Trả về đối tượng Users nếu xác thực thành công
                     } else {
                         // Mật khẩu không hợp lệ
@@ -134,9 +141,6 @@ public class UserServiceImpl implements UserService {
 
     // Phương thức validate tổng hợp
     private void validateUser(User user) throws ValidationException {
-        if (user.getRoleId() <= 0) {
-            throw new ValidationException("Mã quyền phải là số dương.");
-        }
         if (user.getUsername() == null || user.getUsername().trim().isEmpty()) {
             throw new ValidationException("Tài khoản không được để trống.");
         }

@@ -5,14 +5,14 @@
 package model;
 
 /**
- *
  * @author ASUS
  */
 public class User {
 
-    private int  roleId;
 
     private String id, username, password, note;
+
+    private Role role;
 
     public String getId() {
         return id;
@@ -20,14 +20,6 @@ public class User {
 
     public void setId(String id) {
         this.id = id;
-    }
-
-    public int getRoleId() {
-        return roleId;
-    }
-
-    public void setRoleId(int roleId) {
-        this.roleId = roleId;
     }
 
     public String getUsername() {
@@ -54,4 +46,11 @@ public class User {
         this.note = note;
     }
 
+    public Role getRole() {
+        return role;
+    }
+
+    public void setRole(Role role) {
+        this.role = role;
+    }
 }

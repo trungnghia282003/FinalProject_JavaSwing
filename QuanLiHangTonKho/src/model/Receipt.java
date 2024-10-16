@@ -7,13 +7,17 @@ package model;
 import java.util.Date;
 
 /**
- *
  * @author ASUS
  */
 public class Receipt {
 
-    private int id, employeeId, distributorId;
+    private int id;
+    private Employee employee;
+    private Distributor distributor;
+    private Product product;
     private Date receiptDate;
+    private int quantity;
+    private double totalAmount;
     private String note;
 
     public int getId() {
@@ -22,22 +26,6 @@ public class Receipt {
 
     public void setId(int id) {
         this.id = id;
-    }
-
-    public int getEmployeeId() {
-        return employeeId;
-    }
-
-    public void setEmployeeId(int employeeId) {
-        this.employeeId = employeeId;
-    }
-
-    public int getDistributorId() {
-        return distributorId;
-    }
-
-    public void setDistributorId(int distributorId) {
-        this.distributorId = distributorId;
     }
 
     public Date getReceiptDate() {
@@ -56,4 +44,43 @@ public class Receipt {
         this.note = note;
     }
 
+    public Employee getEmployee() {
+        return employee;
+    }
+
+    public void setEmployee(Employee employee) {
+        this.employee = employee;
+    }
+
+    public Distributor getDistributor() {
+        return distributor;
+    }
+
+    public void setDistributor(Distributor distributor) {
+        this.distributor = distributor;
+    }
+
+    public Product getProduct() {
+        return product;
+    }
+
+    public void setProduct(Product product) {
+        this.product = product;
+    }
+
+    public int getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
+    }
+
+    public double getTotalAmount() {
+        return totalAmount;
+    }
+
+    public void setTotalAmount(double totalAmount) {
+        this.totalAmount = totalAmount;
+    }
 }

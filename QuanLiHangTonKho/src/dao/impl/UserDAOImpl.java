@@ -6,6 +6,7 @@ package dao.impl;
 
 import dao.UserDAO;
 import model.Employee;
+import model.Role;
 import model.User;
 import utils.JDBCUtils;
 import utils.PasswordUtils;
@@ -25,7 +26,9 @@ public class UserDAOImpl implements UserDAO {
     @Override
     public List<User> getAllUsers() {
         List<User> userList = new ArrayList<>();
-        String query = "SELECT * FROM Users";
+        String query = "SELECT u.*, r.RoleName as roleName " +
+                "FROM Users u " +
+                "JOIN Role r ON u.roleId = r.id";
 
         try (Connection conn = new JDBCUtils().getConnection();
              Statement stmt = conn.createStatement();
@@ -34,10 +37,15 @@ public class UserDAOImpl implements UserDAO {
             while (rs.next()) {
                 User user = new User();
                 user.setId(rs.getString("id"));
-                user.setRoleId(rs.getInt("roleId"));
                 user.setUsername(rs.getString("username"));
                 user.setPassword(rs.getString("password"));
                 user.setNote(rs.getString("note"));
+
+                Role role = new Role();
+                role.setId(rs.getInt("roleId"));
+                role.setRoleName(rs.getString("roleName"));
+                user.setRole(role);
+
                 userList.add(user);
             }
 
@@ -51,7 +59,10 @@ public class UserDAOImpl implements UserDAO {
     @Override
     public User getUserById(String id) {
         User user = null;
-        String query = "SELECT * FROM Users WHERE id = ?";
+        String query = "SELECT u.*, r.roleName as roleName" +
+                "FROM Users u " +
+                "JOIN Role r ON u.roleId = id" +
+                "WHERE id = ?";
 
         try (Connection conn = new JDBCUtils().getConnection();
              PreparedStatement pstmt = conn.prepareStatement(query)) {
@@ -62,10 +73,14 @@ public class UserDAOImpl implements UserDAO {
             if (rs.next()) {
                 user = new User();
                 user.setId(rs.getString("id"));
-                user.setRoleId(rs.getInt("roleId"));
                 user.setUsername(rs.getString("username"));
                 user.setPassword(rs.getString("password"));
                 user.setNote(rs.getString("note"));
+
+                Role role = new Role();
+                role.setId(rs.getInt("roleId"));
+                role.setRoleName(rs.getString("roleName"));
+                user.setRole(role);
             }
 
         } catch (SQLException e) {
@@ -92,7 +107,7 @@ public class UserDAOImpl implements UserDAO {
             try (PreparedStatement pstmt = conn.prepareStatement(insertUserQuery)) {
 
                 pstmt.setString(1, String.valueOf(uuid));
-                pstmt.setInt(2, user.getRoleId());
+                pstmt.setInt(2, user.getRole().getId());
                 pstmt.setString(3, user.getUsername());
                 pstmt.setString(4, PasswordUtils.hashPassword(user.getPassword()));
                 pstmt.setString(5, user.getNote());
@@ -112,7 +127,7 @@ public class UserDAOImpl implements UserDAO {
                     "gender) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
             try (PreparedStatement pstmt = conn.prepareStatement(insertEmployeeQuery)) {
                 pstmt.setString(1, String.valueOf(uuid));  // Sử dụng UserId làm khóa chính
-                pstmt.setInt(2, employee.getPositionId());
+                pstmt.setInt(2, employee.getPosition().getId());
                 pstmt.setString(3, employee.getEmployeeName());
                 pstmt.setString(4, employee.getAddress());
                 pstmt.setString(5, employee.getPhoneNumber());
@@ -158,7 +173,7 @@ public class UserDAOImpl implements UserDAO {
         try (Connection conn = new JDBCUtils().getConnection();
              PreparedStatement pstmt = conn.prepareStatement(query)) {
 
-            pstmt.setInt(1, user.getRoleId());
+            pstmt.setInt(1, user.getRole().getId());
             pstmt.setString(2, user.getUsername());
             pstmt.setString(3, PasswordUtils.hashPassword(user.getPassword()));
             pstmt.setString(4, user.getNote());

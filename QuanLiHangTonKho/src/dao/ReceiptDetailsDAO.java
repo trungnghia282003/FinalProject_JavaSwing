@@ -4,10 +4,22 @@
  */
 package dao;
 
+import model.Position;
+
+import java.util.List;
+
 /**
- *
  * @author ASUS
  */
-public class ReceiptDetailsDAO {
-    
+public interface ReceiptDetailsDAO {
+
+    List<Position> getAllPositions();
+
+    Position getPositionById(int id);
+
+    boolean insertPosition(Position position);
+
+    boolean updatePosition(Position position);
+
+    boolean deletePosition(int id);
 }

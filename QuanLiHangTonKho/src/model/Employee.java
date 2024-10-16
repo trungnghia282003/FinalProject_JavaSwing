@@ -7,17 +7,16 @@ package model;
 import java.util.Date;
 
 /**
- *
  * @author ASUS
  */
 public class Employee {
 
-    private int positionId;
     private String userId, employeeName, address, phoneNumber, note;
     private Date dateOfBirth, hireDate;
     private boolean gender;
+    private Position position;
 
-    public String getId() {
+    public String getUserId() {
         return userId;
     }
 
@@ -25,12 +24,12 @@ public class Employee {
         this.userId = userId;
     }
 
-    public int getPositionId() {
-        return positionId;
+    public Position getPosition() {
+        return position;
     }
 
-    public void setPositionId(int positionId) {
-        this.positionId = positionId;
+    public void setPosition(Position position) {
+        this.position = position;
     }
 
     public String getEmployeeName() {

@@ -4,10 +4,22 @@
  */
 package dao;
 
+import model.Distributor;
+
+import java.util.List;
+
 /**
- *
  * @author ASUS
  */
-public class DistributorDAO {
-    
+public interface DistributorDAO {
+
+    List<Distributor> getAllDistributors();
+
+    Distributor getDistributorById(int id);
+
+    boolean insertDistributor(Distributor distributor);
+
+    boolean updateDistributor(Distributor distributor);
+
+    boolean deleteDistributor(int id);
 }

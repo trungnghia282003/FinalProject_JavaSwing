@@ -4,10 +4,22 @@
  */
 package dao;
 
+import model.Invoice;
+
+import java.util.List;
+
 /**
- *
  * @author ASUS
  */
-public class InvoiceDAO {
-    
+public interface InvoiceDAO {
+
+    List<Invoice> getAllInvoices();
+
+    Invoice getInvoiceById(int id);
+
+    boolean insertInvoice(Invoice invoice);
+
+    boolean updateInvoice(Invoice invoice);
+
+    boolean deleteInvoice(int id);
 }

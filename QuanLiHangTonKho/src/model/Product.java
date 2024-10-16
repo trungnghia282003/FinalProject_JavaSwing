@@ -5,15 +5,16 @@
 package model;
 
 /**
- *
  * @author ASUS
  */
 public class Product {
 
-    private int id, productTypeId, manufacturerId, stockQuantity;
+    private int id, stockQuantity;
     private String productName, note;
     private double purchasePrice, sellingPrice;
-    private boolean satus;
+    private boolean status;
+    private ProductType productType;
+    private Manufacturer manufacturer;
 
     public int getId() {
         return id;
@@ -21,22 +22,6 @@ public class Product {
 
     public void setId(int id) {
         this.id = id;
-    }
-
-    public int getProductTypeId() {
-        return productTypeId;
-    }
-
-    public void setProductTypeId(int productTypeId) {
-        this.productTypeId = productTypeId;
-    }
-
-    public int getManufacturerId() {
-        return manufacturerId;
-    }
-
-    public void setManufacturerId(int manufacturerId) {
-        this.manufacturerId = manufacturerId;
     }
 
     public int getStockQuantity() {
@@ -79,13 +64,27 @@ public class Product {
         this.sellingPrice = sellingPrice;
     }
 
-    public boolean isSatus() {
-        return satus;
+    public boolean isStatus() {
+        return status;
     }
 
-    public void setSatus(boolean satus) {
-        this.satus = satus;
+    public void setStatus(boolean status) {
+        this.status = status;
     }
-    
-    
+
+    public ProductType getProductType() {
+        return productType;
+    }
+
+    public void setProductType(ProductType productType) {
+        this.productType = productType;
+    }
+
+    public Manufacturer getManufacturer() {
+        return manufacturer;
+    }
+
+    public void setManufacturer(Manufacturer manufacturer) {
+        this.manufacturer = manufacturer;
+    }
 }
